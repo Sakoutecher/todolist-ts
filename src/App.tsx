@@ -12,11 +12,17 @@ import TodoContainer from './components/TodoContainer'
 const App = () => {
   const [todolist, setTodolist] = useState<TodoType[]>([])
   const [addTodo, setAddtodo] = useState<string>('')
+  const [error, setError] = useState<boolean>(false)
 
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleSubmit = (e: FormEvent, text: string) => {
     e.preventDefault()
+
+    if (text === '') {
+      setError(true)
+      return
+    }
 
     const newTodo: TodoType = {
       id: uuid(),
@@ -51,22 +57,30 @@ const App = () => {
         onSubmit={(e: FormEvent) => {
           handleSubmit(e, addTodo)
         }}
-        className='font-global w-2/5 py-4 px-4 bg-stone-800 rounded-md flex items-center justify-center gap-2'
+        className='font-global w-2/5 py-4 px-4 bg-stone-800 rounded-md flex flex-col items-center justify-center gap-4'
       >
-        <input
-          ref={inputRef}
-          value={addTodo}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setAddtodo(e.target.value)
-          }}
-          placeholder='Type here your todo...'
-          className='bg-slate-100 rounded-md w-3/4 py-2 pl-3 text-sm text-stone-800 placeholder:text-stone-500 outline-none'
-        />
-        <input
-          className='bg-stone-500 w-1/4 py-2 text-sm text-slate-100 rounded-md cursor-pointer'
-          type='submit'
-          value='Add'
-        />
+        <div className='w-full flex items-center justify-center gap-2'>
+          <input
+            ref={inputRef}
+            value={addTodo}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              if (e.target.value !== '') {
+                setError(false)
+              }
+              setAddtodo(e.target.value)
+            }}
+            placeholder='Type here your todo...'
+            className='bg-slate-100 rounded-md w-3/4 py-2 pl-3 text-sm text-stone-800 placeholder:text-stone-500 outline-none'
+          />
+          <input
+            className='bg-stone-500 w-1/4 py-2 text-sm text-slate-100 rounded-md cursor-pointer'
+            type='submit'
+            value='Add'
+          />
+        </div>
+        {error ? (
+          <p className='text-red-500'>A todo need to have some text</p>
+        ) : null}
       </form>
       <div className='flex items-start justify-center gap-4 mx-auto w-4/5 py-2 px-2 my-10'>
         <TodoContainer
