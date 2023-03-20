@@ -43,7 +43,7 @@ const App = () => {
   }
 
   return (
-    <div className='flex flex-col items-center mx-auto px-4 py-4 bg-stone-700 h-screen font-global'>
+    <div className='flex flex-col items-center mx-auto px-4 py-4 bg-stone-700 min-h-screen font-global overflow-y-scroll'>
       <h3 className='my-10 text-2xl text-slate-100 tracking-wide'>
         TodoList App Typescript
       </h3>
@@ -68,7 +68,7 @@ const App = () => {
           value='Add'
         />
       </form>
-      <div className='flex items-center justify-center gap-4 mx-auto w-4/5 py-2 px-2 my-10'>
+      <div className='flex items-start justify-center gap-4 mx-auto w-4/5 py-2 px-2 my-10'>
         <TodoContainer
           todolist={todolist}
           titleContainer={'In progress'}
